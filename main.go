@@ -1,27 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"time"
+
+	"github.com/bootdotdev/go-api-gate/courses/projects/pokedexcli/internal/pokeapi"
 )
 
-func commandExit() error {
-	os.Exit(0)
-	return nil
-}
-
-func commandHelp() error {
-	fmt.Println()
-	fmt.Println("Welcome to the Pokedex!")
-	fmt.Println("Usage:")
-	fmt.Println()
-	for _, cmd := range getCommands() {
-		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
-	}
-	fmt.Println()
-	return nil
-}
-
 func main() {
-	startRepl()
+	pokeClient := pokeapi.NewClient(5*time.Second, time.Minute*5)
+	cfg := &config{
+		pokeapiClient: pokeClient,
+	}
+
+	startRepl(cfg)
 }
